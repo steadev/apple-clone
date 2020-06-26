@@ -1,3 +1,138 @@
-.body{
-    
+@charset 'utf-8';
+
+html {
+    font-family: "Noto Sans KR", sans-serif;
+    font-size: 14px;
+}
+body {
+    overflow-x: hidden;
+    color: rgb(29, 29, 31);
+    letter-spacing: -0.05em;
+    background: white;
+}
+a{
+    color: rgb(29, 29, 31);
+    text-decoration: none;
+}
+.nav-top, .nav-bottom{
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:44px;
+    padding:0 1rem;
+
+}
+.nav-bottom{
+    top:45px;
+    height:52px;
+    border-bottom: 1px solid #ddd;
+}
+.nav-top__links, .nav-bottom__links{
+    display:flex;
+    align-items: center;
+    height:100%;
+    max-width:1000px;
+    margin: 0 auto;
+}
+.nav-top__links{
+    justify-content: space-between;
+}
+.nav-bottom__item{
+    cursor:pointer;
+}
+.nav-bottom__item:not(.nav-bottom__item--left){
+    margin-left: 2em;
+    font-size: 0.8rem;
+}
+.nav-bottom__item--left{
+    margin-right:auto;
+    font-size:1.4rem;
+    font-weight:bold;
+}
+.scroll-section{
+    position:relative;
+    padding-top:50vh;
+}
+.scroll-section h1{
+    position:relative;
+    font-size:4rem;
+    text-align: center;
+    top:-10vh;
+}
+.scroll-section__sticky-elem{
+    position:fixed;
+    width:100%;
+    left:0;
+    display:block;
+}
+.scroll-section__sticky-elem p{
+    line-height: 1.2;
+    font-weight:bold;
+    text-align: center;
+}
+.scroll-section__description{
+    padding: 0 1rem;
+    margin: 0 auto;
+    font-size: 1.2rem;
+    max-width: 1000px;
+    color: #888;
+}
+.scroll-section__description strong{
+    float:left;
+    font-size:3rem;
+    margin-right:0.2em;
+    color:rgb(29,29,31);
+}
+.scroll-section--main-message, .scroll-section--desc-message{
+    opacity: 0;
+}
+.scroll-section--main-message{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top:35vh;
+    margin: 5px 0;
+    height: 3em;
+    font-size: 2.5rem;
+}
+.scroll-section--desc-message{
+    width: 50%;
+    font-weight: bold;
+}
+.pin {
+	width: 1px;
+	height: 100px;
+	background: rgb(29, 29, 31);
+}
+.scroll-section__mid-message {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 1rem;
+    font-size: 2rem;
+    color: #888;
+}
+.scroll-section__mid-message strong {
+    color: rgb(29, 29, 31);
+  }
+.canvas-caption {
+    position: absolute;
+    max-width: 1000px;
+    margin: -24rem auto 0;
+    padding: 0 1rem;
+    color: #888;
+    font-size: 1.2rem;
+}
+.sticky-elem-canvas canvas{
+    position:absolute;
+    top:50%;
+    left: 50%;
+}
+.footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 7rem;
+    color: white;
+    background: darkorange;
 }
