@@ -1,5 +1,5 @@
+import {data} from './data.js';
 (() => {
-
     let yOffset = 0; // window.pageYOffset 대신 쓸 변수
     let prevScrollHeight = 0; // 현재 스크롤 위치보다 이전에 위치한 스크롤 섹션들의 스크롤 높이의 합
     let currentScene = 0; // 현재 황성화 된 scene
@@ -506,7 +506,19 @@
             }
 
         }
-
+        // 추가 코드
+        // home이나 end를 이용해 페이지 끝으로 고속 이동하면 body id가 제대로 인식 안되는 경우를 해결
+        // home 키로 페이지 맨 위로 갈 경우: scrollLoop와 첫 scene의 기본 캔버스 그리기 수행
+        if (delayedYOffset < 1) {
+            scrollLoop();
+            sceneInfo[0].objs.canvas.style.opacity = 1;
+            sceneInfo[0].objs.context.drawImage(sceneInfo[0].objs.videoImages[0], 0, 0);
+        }
+        // end 키로 페이지 맨 아래로 갈 경우: 마지막 섹션은 스크롤 계산으로 위치 및 크기를 결정해야할 요소들이 많아서 1픽셀을 움직여주는 것으로 해결
+        if ((document.body.offsetHeight - window.innerHeight) - delayedYOffset < 1) {
+            let tempYOffset = yOffset;
+            scrollTo(0, tempYOffset - 1);
+        }
         rafId = requestAnimationFrame(loop);
 
         if (Math.abs(yOffset - delayedYOffset) < 1) {
@@ -531,7 +543,6 @@
                 window.scrollTo(0, tempYOffset);
                 tempYOffset += 5;
                 if (tempScrollCount++ > 20) {
-                    console.log(tempScrollCount)
                     clearInterval(siId);
                 }
             }, 20);
@@ -552,6 +563,30 @@
             if (window.innerWidth > 900) {
                 setLayout();
                 sceneInfo[3].values.rectStartY = 0;
+            }
+            if (currentScene === 3) {
+                // 추가 코드
+                // Scene 3의 요소들은 위치나 크기가 미리 정해지지 않고
+                // 현재 창 사이즈나 스크롤 위치에 따라 가변적으로 변하기 때문에
+                // 리사이즈에 일일이 대응시키기가 까다롭습니다.
+                // Scene 3에 진입 시점에 요소들의 위치와 크기가 결정이 되는 특징을 이용해서
+                // 현재 Scene이 3일 경우에는 좀 위로 스크롤이 되도록 해서
+                // Scene 3의 시작 지점 이전으로 돌리는 식으로 요소들의 레이아웃이 깨지는 현상을 방지해 줍니다.
+                // 시작 지점 이전으로 스크롤을 이동 시키는 동작은
+                // 바로 위 518 라인의 자동 스크롤 코드를 그대로 활용했습니다.
+                let tempYOffset = yOffset;
+                let tempScrollCount = 0;
+                if (tempYOffset > 0) {
+                    let siId = setInterval(() => {
+                        scrollTo(0, tempYOffset);
+                        tempYOffset -= 50;
+
+                        if (tempScrollCount > 20) {
+                            clearInterval(siId);
+                        }
+                        tempScrollCount++;
+                    }, 20);
+                }
             }
         });
 
