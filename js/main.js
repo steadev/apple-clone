@@ -9,7 +9,7 @@ import {data} from './data.js';
     let delayedYOffset = 0;
     let rafId;
     let rafState;
-
+    
     const sceneInfo = [
         {
             // 0
@@ -129,6 +129,67 @@ import {data} from './data.js';
             }
         },
     ];
+    function createDOM(){
+
+    }
+    function setSceneInfo(data){
+        let info = [];
+        
+        data.forEach((scene, sceneIdx)=>{
+            let messages = {};
+            let messagesOpacity = {};
+            let pinOpacity = {};
+            let canvas = {};
+            if(scene.type === 'sticy_video'){
+                cansvas = {
+                    canvas: scene.canvas ? document.querySelector(`#video-canvas-${sceneIdx}`) : null,
+                    context: scene.canvas ? document.querySelector(`#video-canvas-${sceneIdx}`).getContext('2d') : null,
+                    videoImages:[]
+                }
+            }else if(scene.type === 'sticky_image'){
+                canvas = {
+                    canvas: document.querySelector(`.image-blend-canvas-${sceneIdx}`),
+                    context: document.querySelector(`.image-blend-canvas-${sceneIdx}`).getContext('2d'),
+                    imagesPath: scene.canvas.imageUrl,
+                    images:[]
+                }
+            }
+            scene.messages.forEach((msg, msgIdx)=>{
+                messages[`message_${msgIdx}`] = document.querySelector(`#scroll-section-${sceneIdx} .${msg.type}-message.${index}`);
+                if(msg.in_start){
+                    messagesOpacity[`message_${msgIdx}_opacity_in`] = [0, 1, { start: msg.in_start, end:msg.in_end }];
+                    messagesOpacity[`message_${msgIdx}_translateY_in`] = [20, 0, { start: msg.in_start, end:msg.in_end }];
+                }
+                if(msg.out_start){
+                    messagesOpacity[`message_${msgIdx}_opacity_out`] = [1, 0, { start: msg.out_start, end:msg.out_end }];
+                    messagesOpacity[`message_${msgIdx}_translateY_out`] = [0, -20, { start: msg.out_start, end:msg.out_end }];
+                }
+                if(msg.pin){
+                    pinOpacity[`pin_${msgIdx}_scaleY`] = [0.5, 1, { start: 0.6, end: 0.65 }]
+                }
+            });
+
+            info.push({
+                heightNum: scene.height,
+                scrollHeight: 0,
+                type: scene.type,
+                objs: {
+                    container: document.querySelector(`#scroll-section-${sceneIdx}`),
+                    ...messages
+                },
+                values: {
+                    videoImageCount: scene.imageCount,
+                    imageSequence: [0, scene.imageCount-1],
+
+                    canvas_opacity_in: scene.canvas && scene.canvas.in_start ? [0, 1, { start: scene.canvas.in_start, end: scene.canvas.in_end }] : null,
+                    canvas_opacity_out: scene.canvas && scene.canvas.out_start ? [1, 0, { start: scene.canvas.out_start, end: scene.canvas.out_end }] : null,
+
+                    ...messagesOpacity,
+                    ...pinOpacity
+                }
+            });
+        });
+    }
 
     function setCanvasImages() {
         let imgElem;
