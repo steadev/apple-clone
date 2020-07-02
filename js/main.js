@@ -9,8 +9,8 @@ import {data} from './data.js';
     let delayedYOffset = 0;
     let rafId;
     let rafState;
-    
-    const sceneInfo = [
+    const sceneInfo = setSceneInfo(data);
+    const sceneInfo2 = [
         {
             // 0
             heightNum: 5,
@@ -18,10 +18,10 @@ import {data} from './data.js';
             type: "sticky",
             objs: {
                 container: document.querySelector("#scroll-section-0"),
-                message_0: document.querySelector("#scroll-section-0 .main-message.msg0"),
-                message_1: document.querySelector("#scroll-section-0 .main-message.msg1"),
-                message_2: document.querySelector("#scroll-section-0 .main-message.msg2"),
-                message_3: document.querySelector("#scroll-section-0 .main-message.msg3"),
+                message_0: document.querySelector("#scroll-section-0 .main-message.msg-0"),
+                message_1: document.querySelector("#scroll-section-0 .main-message.msg-1"),
+                message_2: document.querySelector("#scroll-section-0 .main-message.msg-2"),
+                message_3: document.querySelector("#scroll-section-0 .main-message.msg-3"),
                 canvas: document.querySelector('#video-canvas-0'),
                 context: document.querySelector('#video-canvas-0').getContext('2d'),
                 videoImages:[]
@@ -68,11 +68,11 @@ import {data} from './data.js';
             type: "sticky",
             objs: {
                 container: document.querySelector('#scroll-section-2'),
-                message_0: document.querySelector('#scroll-section-2 .msg0'),
-                message_1: document.querySelector('#scroll-section-2 .msg1'),
-                message_2: document.querySelector('#scroll-section-2 .msg2'),
-                pin_1: document.querySelector('#scroll-section-2 .msg1 .pin'),
-                pin_2: document.querySelector('#scroll-section-2 .msg2 .pin'),
+                message_0: document.querySelector('#scroll-section-2 .msg-0'),
+                message_1: document.querySelector('#scroll-section-2 .msg-1'),
+                message_2: document.querySelector('#scroll-section-2 .msg-2'),
+                pin_1: document.querySelector('#scroll-section-2 .msg-1 .pin'),
+                pin_2: document.querySelector('#scroll-section-2 .msg-2 .pin'),
                 canvas: document.querySelector('#video-canvas-2'),
                 context: document.querySelector('#video-canvas-2').getContext('2d'),
                 videoImages: []
@@ -140,8 +140,8 @@ import {data} from './data.js';
             let messagesOpacity = {};
             let pinOpacity = {};
             let canvas = {};
-            if(scene.type === 'sticy_video'){
-                cansvas = {
+            if(scene.type === 'sticky_video'){
+                canvas = {
                     canvas: scene.canvas ? document.querySelector(`#video-canvas-${sceneIdx}`) : null,
                     context: scene.canvas ? document.querySelector(`#video-canvas-${sceneIdx}`).getContext('2d') : null,
                     videoImages:[]
@@ -154,20 +154,22 @@ import {data} from './data.js';
                     images:[]
                 }
             }
-            scene.messages.forEach((msg, msgIdx)=>{
-                messages[`message_${msgIdx}`] = document.querySelector(`#scroll-section-${sceneIdx} .${msg.type}-message.msg${index}`);
-                if(msg.in_start){
-                    messagesOpacity[`message_${msgIdx}_opacity_in`] = [0, 1, { start: msg.in_start, end:msg.in_end }];
-                    messagesOpacity[`message_${msgIdx}_translateY_in`] = [20, 0, { start: msg.in_start, end:msg.in_end }];
-                }
-                if(msg.out_start){
-                    messagesOpacity[`message_${msgIdx}_opacity_out`] = [1, 0, { start: msg.out_start, end:msg.out_end }];
-                    messagesOpacity[`message_${msgIdx}_translateY_out`] = [0, -20, { start: msg.out_start, end:msg.out_end }];
-                }
-                if(msg.pin){
-                    pinOpacity[`pin_${msgIdx}_scaleY`] = [0.5, 1, { start: 0.6, end: 0.65 }]
-                }
-            });
+            if(scene.messages){
+                scene.messages.forEach((msg, msgIdx)=>{
+                    messages[`message_${msgIdx}`] = document.querySelector(`#scroll-section-${sceneIdx} .${msg.type}-message.msg-${msgIdx}`);
+                    if(msg.in_start){
+                        messagesOpacity[`message_${msgIdx}_opacity_in`] = [0, 1, { start: msg.in_start, end:msg.in_end }];
+                        messagesOpacity[`message_${msgIdx}_translateY_in`] = [20, 0, { start: msg.in_start, end:msg.in_end }];
+                    }
+                    if(msg.out_start){
+                        messagesOpacity[`message_${msgIdx}_opacity_out`] = [1, 0, { start: msg.out_start, end:msg.out_end }];
+                        messagesOpacity[`message_${msgIdx}_translateY_out`] = [0, -20, { start: msg.out_start, end:msg.out_end }];
+                    }
+                    if(msg.pin){
+                        pinOpacity[`pin_${msgIdx}_scaleY`] = [0.5, 1, { start: 0.6, end: 0.65 }]
+                    }
+                });
+            }
 
             info.push({
                 heightNum: scene.height,
@@ -175,11 +177,12 @@ import {data} from './data.js';
                 type: scene.type,
                 objs: {
                     container: document.querySelector(`#scroll-section-${sceneIdx}`),
-                    ...messages
+                    ...messages,
+                    ...canvas
                 },
                 values: {
-                    videoImageCount: scene.imageCount,
-                    imageSequence: [0, scene.imageCount-1],
+                    videoImageCount: scene.canvas && scene.canvas.imageCount ? scene.canvas.imageCount : null,
+                    imageSequence: scene.canvas && scene.canvas.imageCount ? [0, scene.canvas.imageCount-1] : null,
 
                     canvas_opacity_in: scene.canvas && scene.canvas.in_start ? [0, 1, { start: scene.canvas.in_start, end: scene.canvas.in_end }] : null,
                     canvas_opacity_out: scene.canvas && scene.canvas.out_start ? [1, 0, { start: scene.canvas.out_start, end: scene.canvas.out_end }] : null,
@@ -189,6 +192,7 @@ import {data} from './data.js';
                 }
             });
         });
+        return info;
     }
 
     function setCanvasImages() {
@@ -283,7 +287,7 @@ import {data} from './data.js';
             case 0:
                 // let sequence = Math.round(calcValues(values.imageSequence, currentYOffset));
                 // objs.context.drawImage(objs.videoImages[sequence], 0, 0);
-                objs.canvas.style.opacity = calcValues(values.canvas_opacity, currentYOffset);
+                objs.canvas.style.opacity = calcValues(values.canvas_opacity_out, currentYOffset);
 
                 if (scrollRatio <= 0.22) {
                     // in
@@ -595,6 +599,7 @@ import {data} from './data.js';
 
         document.body.classList.remove('before-load');
         setLayout();
+        console.log(sceneInfo[0].objs.context);
         sceneInfo[0].objs.context.drawImage(sceneInfo[0].objs.videoImages[0], 0, 0);
 
         let tempYOffset = yOffset;
