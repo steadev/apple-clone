@@ -29,7 +29,7 @@ import {data} from './data.js';
             values: {
                 videoImageCount: 300,
                 imageSequence: [0, 299],
-                canvas_opacity: [1, 0, { start: 0.9, end: 1}],
+                canvas_opacity_out: [1, 0, { start: 0.9, end: 1}],
 
                 message_0_opacity_in: [0, 1, { start: 0.1, end: 0.2 }],
                 message_0_translateY_in: [20, 0, { start: 0.1, end: 0.2 }],
@@ -216,6 +216,7 @@ import {data} from './data.js';
             imgElem3.src = sceneInfo[3].objs.imagesPath[i];
             sceneInfo[3].objs.images.push(imgElem3);
         }
+        console.log(sceneInfo)
     }
 
     function checkMenu() {
@@ -596,10 +597,8 @@ import {data} from './data.js';
 
     // DOMContentLoaded은 DOM만 되면 하는거, load는 이미지 같은거 다 되면 하는거
     window.addEventListener('load', () => {
-
         document.body.classList.remove('before-load');
         setLayout();
-        console.log(sceneInfo[0].objs.context);
         sceneInfo[0].objs.context.drawImage(sceneInfo[0].objs.videoImages[0], 0, 0);
 
         let tempYOffset = yOffset;
@@ -616,6 +615,8 @@ import {data} from './data.js';
 
         window.addEventListener('scroll', () => {
             yOffset = window.pageYOffset;
+            console.log(yOffset);
+            
             scrollLoop();
             checkMenu();
 
