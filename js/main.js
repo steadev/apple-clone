@@ -9,7 +9,9 @@ import {data} from './data.js';
     let delayedYOffset = 0;
     let rafId;
     let rafState;
+    console.log(data)
     const sceneInfo = setSceneInfo(data);
+    console.log(sceneInfo);
     const sceneInfo2 = [
         {
             // 0
@@ -230,7 +232,7 @@ import {data} from './data.js';
     function setLayout() {
         // 각 스크롤 섹션의 높이 세팅
         for (let i = 0; i < sceneInfo.length; i++) {
-            if (sceneInfo[i].type === 'sticky') {
+            if (sceneInfo[i].type.includes('sticky')) {
                 sceneInfo[i].scrollHeight = sceneInfo[i].heightNum * window.innerHeight; 
             } else if(sceneInfo[i].type === 'normal'){
                 sceneInfo[i].scrollHeight = sceneInfo[i].objs.container.offsetHeight;
@@ -615,7 +617,6 @@ import {data} from './data.js';
 
         window.addEventListener('scroll', () => {
             yOffset = window.pageYOffset;
-            console.log(yOffset);
             
             scrollLoop();
             checkMenu();
