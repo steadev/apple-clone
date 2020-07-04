@@ -131,8 +131,17 @@ import {data} from './data.js';
             }
         },
     ];
-    function createDOM(){
+    function createDOM(data){
+        let container = document.querySelector('container');
+        data.forEach((scene, sceneIdx)=>{
+            if(scene.type === 'sticky_video'){
 
+            }else if(scene.type === 'sticky_image'){
+
+            }else if(scene.type === 'normal'){
+                
+            }
+        });
     }
     function setSceneInfo(data){
         let info = [];
@@ -202,6 +211,7 @@ import {data} from './data.js';
         for (let i = 0; i < sceneInfo[0].values.videoImageCount; i++){
             imgElem = new Image();
             imgElem.src = `./video/001/IMG_${6726 + i}.JPG`;
+            // imgElem.src = `./video/001/IMG_${i}.JPG`;
             sceneInfo[0].objs.videoImages.push(imgElem);
         }
 
@@ -209,6 +219,7 @@ import {data} from './data.js';
         for (let i = 0; i < sceneInfo[2].values.videoImageCount; i++) {
             imgElem2 = new Image();
             imgElem2.src = `./video/002/IMG_${7027 + i}.JPG`;
+            // imgElem2.src = `./video/002/IMG_${i}.JPG`;
             sceneInfo[2].objs.videoImages.push(imgElem2);
         }
 
