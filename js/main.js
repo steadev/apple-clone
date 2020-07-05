@@ -9,9 +9,7 @@ import {data} from './data.js';
     let delayedYOffset = 0;
     let rafId;
     let rafState;
-    console.log(data)
     const sceneInfo = setSceneInfo(data);
-    console.log(sceneInfo);
     const sceneInfo2 = [
         {
             // 0
@@ -134,12 +132,46 @@ import {data} from './data.js';
     function createDOM(data){
         let container = document.querySelector('container');
         data.forEach((scene, sceneIdx)=>{
-            if(scene.type === 'sticky_video'){
+            container.innerHTML += `<section class="scroll-section" id="scroll-section-${sceneIdx}"></section>`;
+            let curSection = document.querySelector(`#scroll-section-${sceneIdx}`);
+            // type 마다 구성 순서가 다름
+            if(scene.type === 'sticky_video'){ 
+                // add title
+                if(scene.title){
+                    let title = document.createElement('h1');
+                    title.innerText = `${scene.title.text}`;
+                    title.style.fontSize = `${scene.title.size}rem`;
+                    curSection.appendChild(title);
+                }
+                // add canvas
+                if(scene.canvas){
+                    curSection.innerHTML += `
+                    <div class="sticky-elem sticky-elem-canvas">
+                        <canvas id="video-canvas-${sceneIdx}" width="1920" height="1080"></canvas>
+                    </div>`;
+                }   
+                // add messages
+                if(scene.messages && scene.messages.length > 0){
 
+                }
             }else if(scene.type === 'sticky_image'){
+                // add messages
+                if(scene.messages && scene.messages.length > 0){
 
+                }
+                // add canvas
+                if(scene.canvas){
+                    
+                }
             }else if(scene.type === 'normal'){
-                
+                // add title
+                if(scene.title){
+
+                }
+                // add message
+                if(scene.messages && scene.messages.length > 0){
+
+                }
             }
         });
     }

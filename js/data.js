@@ -4,14 +4,14 @@ export const data = [
         height: 5,
         title:{
             text:'AirMug Pro',
-            size:'4rem'
+            size:'4'
         },
         messages:[
             {
                 type: 'main',
                 text: '온전히 빠져들게 하는<br />최고급 세라믹',
                 width:null,
-                size:'2.5rem',
+                size:'2.5',
                 in_start: 0.1,
                 in_end: 0.2,
                 out_start:0.25,
@@ -21,7 +21,7 @@ export const data = [
                 type: 'main',
                 text: '주변 맛을 느끼게 해주는<br />주변 맛 허용 모드',
                 width:null,
-                size:'2.5rem',
+                size:'2.5',
                 in_start: 0.3,
                 in_end: 0.4,
                 out_start:0.45,
@@ -31,7 +31,7 @@ export const data = [
                 type: 'main',
                 text: '온종일 편안한<br />맞춤형 손잡이',
                 width:null,
-                size:'2.5rem',
+                size:'2.5',
                 in_start: 0.5,
                 in_end: 0.6,
                 out_start:0.65,
@@ -41,7 +41,7 @@ export const data = [
                 type: 'main',
                 text: '새롭게 입가를<br />찾아온 매혹',
                 width:null,
-                size:'2.5rem',
+                size:'2.5',
                 in_start: 0.7,
                 in_end: 0.8,
                 out_start:0.85,
@@ -63,7 +63,7 @@ export const data = [
         height: null,
         title:{
             text:'<strong>보통 스크롤 영역</strong>',
-            size:'3rem'
+            size:'3'
         },
         messages:[
             {
@@ -104,7 +104,7 @@ export const data = [
                 type: 'main',
                 text: '<small>편안한 촉감</small>입과 하나 되다',
                 width:null,
-                size:'2.5rem',
+                size:'2.5',
                 in_start: 0.25,
                 in_end: 0.3,
                 out_start:0.4,
@@ -118,7 +118,7 @@ export const data = [
                     AirMug Pro를 만들었습니다. 입에 뭔가 댔다는 감각은 어느새 사라지고
                     오롯이 당신과 음료만 남게 되죠.`,
                 width:'50%',
-                // size:'2.5rem',
+                // size:'2.5',
                 top: '10%',
                 left: '40%',
                 pin: true,
@@ -131,7 +131,7 @@ export const data = [
                 type: 'description',
                 text: '온종일 편안한<br />맞춤형 손잡이',
                 width: '50%',
-                // size:'2.5rem',
+                // size:'2.5',
                 top: '15%',
                 left: '45%',
                 pin: true,
