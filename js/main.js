@@ -164,14 +164,18 @@ import {data} from './data.js';
                     
                 }
             }else if(scene.type === 'normal'){
+                const normalDOM = document.createElement('strong');
                 // add title
                 if(scene.title){
-
+                    normalDOM.innerText = scene.title.text;
+                    curSection.appendChild(normalDOM);
                 }
                 // add message
                 if(scene.messages && scene.messages.length > 0){
-
+                    curSection.innerHTML += scene.messages[0].text;
                 }
+                
+                
             }
         });
     }

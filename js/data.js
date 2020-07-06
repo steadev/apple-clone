@@ -62,7 +62,7 @@ export const data = [
         type: 'normal',
         height: null,
         title:{
-            text:'<strong>보통 스크롤 영역</strong>',
+            text:'보통 스크롤 영역',
             size:'3'
         },
         messages:[
