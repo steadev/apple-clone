@@ -157,11 +157,16 @@ import {data} from './data.js';
             }else if(scene.type === 'sticky_image'){
                 // add messages
                 if(scene.messages && scene.messages.length > 0){
-
+                    const messageDOM = document.createElement('div');
+                    messageDOM.className = 'mid-message';
+                    messageDOM.innerHTML = scene.messages[0].text;
+                    curSection.appendChild(messageDOM)
                 }
                 // add canvas
                 if(scene.canvas){
-                    
+                    curSection.appendChild(`
+                    <canvas class="image-blend-canvas image-blend-canvas-${sceneIdx}" width="1920" height="1080"></canvas>
+                    `);
                 }
             }else if(scene.type === 'normal'){
                 const normalDOM = document.createElement('strong');

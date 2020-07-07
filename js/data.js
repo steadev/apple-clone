@@ -155,6 +155,16 @@ export const data = [
         type: 'sticky_image',
         height: 5,
         direction: 'col',
+        messages: [
+            {
+                type: 'middle',
+                text: `
+                    <strong>Retina 머그</strong><br />
+                    아이디어를 광활하게 펼칠<br />
+                    아름답고 부드러운 음료 공간.
+                `
+            }
+        ],
         canvas:{
             imageUrl:[
                 './images/blend-image-1.jpg',
