@@ -152,35 +152,47 @@ import {data} from './data.js';
                 }   
                 // add messages
                 if(scene.messages && scene.messages.length > 0){
-
+                    scene.messages.forEach((message, idx) => {
+                        curSection.innerHTML += `
+                        <div class="sticky-elem ${message.type}-message msg-${idx}">
+                            <p>${message.text}</p>`;
+                        if(message.pin) curSection.innerHTML += `
+                            <div class="pin"></div>`;
+                        curSection.innerHTML += `
+                        </div>`;
+                    });
                 }
             }else if(scene.type === 'sticky_image'){
                 // add messages
                 if(scene.messages && scene.messages.length > 0){
                     const messageDOM = document.createElement('div');
-                    messageDOM.className = 'mid-message';
+                    messageDOM.className = `${scene.messages[0].type}-message`;
                     messageDOM.innerHTML = scene.messages[0].text;
-                    curSection.appendChild(messageDOM)
+                    curSection.appendChild(messageDOM);
                 }
                 // add canvas
                 if(scene.canvas){
-                    curSection.appendChild(`
+                    curSection.innerHTML += `
                     <canvas class="image-blend-canvas image-blend-canvas-${sceneIdx}" width="1920" height="1080"></canvas>
-                    `);
+                    `;
+                }
+                // add canvas caption
+                if(scene.canvasCaption){
+                    curSection.innerHTML`
+                    <p class="canvas-caption">${scene.canvasCaption.text}</p>`;
                 }
             }else if(scene.type === 'normal'){
-                const normalDOM = document.createElement('strong');
+                const normalDOM = document.createElement('p');
+                normalDOM.className = 'description';
                 // add title
                 if(scene.title){
-                    normalDOM.innerText = scene.title.text;
-                    curSection.appendChild(normalDOM);
+                    normalDOM.innerHTML = `<strong>${scene.title.text}</strong>`;
                 }
                 // add message
                 if(scene.messages && scene.messages.length > 0){
-                    curSection.innerHTML += scene.messages[0].text;
+                    normalDOM.innerHTML += scene.messages[0].text;
                 }
-                
-                
+                curSection.appendChild(normalDOM);
             }
         });
     }

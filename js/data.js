@@ -111,7 +111,7 @@ export const data = [
                 out_end:0.45,
             },
             {
-                type: 'description',
+                type: 'desc',
                 text: `
                     편안한 목넘김을 완성하는 디테일한 여러 구성 요소들, 우리는 이를
                     하나하나 새롭게 살피고 재구성하는 과정을 거쳐 새로운 수준의 머그,
@@ -128,7 +128,7 @@ export const data = [
                 out_end:0.73
             },
             {
-                type: 'description',
+                type: 'desc',
                 text: '온종일 편안한<br />맞춤형 손잡이',
                 width: '50%',
                 // size:'2.5',
@@ -149,6 +149,15 @@ export const data = [
             in_end:0.1,
             out_start:0.95,
             out_end:1
+        },
+        canvasCaption:{
+            text: `Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eveniet at fuga quae perspiciatis veniam impedit et, ratione
+            est optio porro. Incidunt aperiam nemo voluptas odit quisquam harum in mollitia. Incidunt minima iusto in corporis,
+            dolores velit. Autem, sit dolorum inventore a rerum distinctio vero illo magni possimus temporibus dolores neque
+            adipisci, repudiandae repellat. Ducimus accusamus similique quas earum laborum. Autem tempora repellendus asperiores
+            illum ex! Velit ea corporis odit? Ea, incidunt delectus. Sapiente rerum neque error deleniti quis, et, quibusdam, est
+            autem voluptate rem voluptas. Ratione soluta similique harum nihil vel. Quas inventore perferendis iusto explicabo animi
+            eos ratione obcaecati.`
         }
     },
     {
@@ -157,7 +166,7 @@ export const data = [
         direction: 'col',
         messages: [
             {
-                type: 'middle',
+                type: 'mid',
                 text: `
                     <strong>Retina 머그</strong><br />
                     아이디어를 광활하게 펼칠<br />
