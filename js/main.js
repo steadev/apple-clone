@@ -202,8 +202,10 @@ import {data} from './data.js';
         data.forEach((scene, sceneIdx)=>{
             let messages = {};
             let messagesOpacity = {};
+            let pins = {};
             let pinOpacity = {};
             let canvas = {};
+            let stickyImageValues = {};
             if(scene.type === 'sticky_video'){
                 canvas = {
                     canvas: scene.canvas ? document.querySelector(`#video-canvas-${sceneIdx}`) : null,
@@ -214,8 +216,18 @@ import {data} from './data.js';
                 canvas = {
                     canvas: document.querySelector(`.image-blend-canvas-${sceneIdx}`),
                     context: document.querySelector(`.image-blend-canvas-${sceneIdx}`).getContext('2d'),
+                    canvasCaption: document.querySelector(`.canvas-caption-${sceneIdx}`),
                     imagesPath: scene.canvas.imageUrl,
                     images:[]
+                }
+                stickyImageValues = {
+                    rect1X: [0, 0, { start: 0, end: 0 }],
+                    rect2X: [0, 0, { start: 0, end: 0 }],
+                    rectStartY: 0,
+                    blendHeight: [0, 0, { start: 0, end: 0 }],
+                    canvas_scale: [0, 0, { start: 0, end: 0 }],
+                    canvasCaption_opacity: [0, 1, { start: 0, end: 0 }],
+                    canvasCaption_translateY: [20, 0, { start: 0, end: 0 }],
                 }
             }
             if(scene.messages){
@@ -230,6 +242,7 @@ import {data} from './data.js';
                         messagesOpacity[`message_${msgIdx}_translateY_out`] = [0, -20, { start: msg.out_start, end:msg.out_end }];
                     }
                     if(msg.pin){
+                        pins[`pin_${msgIdx}`] = document.querySelector(`#scroll-section-${sceneIdx} .msg-${msgIdx} .pin`);
                         pinOpacity[`pin_${msgIdx}_scaleY`] = [0.5, 1, { start: 0.6, end: 0.65 }]
                     }
                 });
@@ -242,17 +255,20 @@ import {data} from './data.js';
                 objs: {
                     container: document.querySelector(`#scroll-section-${sceneIdx}`),
                     ...messages,
-                    ...canvas
+                    ...canvas,
+                    ...pins
                 },
                 values: {
                     videoImageCount: scene.canvas && scene.canvas.imageCount ? scene.canvas.imageCount : null,
                     imageSequence: scene.canvas && scene.canvas.imageCount ? [0, scene.canvas.imageCount-1] : null,
 
-                    canvas_opacity_in: scene.canvas && scene.canvas.in_start ? [0, 1, { start: scene.canvas.in_start, end: scene.canvas.in_end }] : null,
-                    canvas_opacity_out: scene.canvas && scene.canvas.out_start ? [1, 0, { start: scene.canvas.out_start, end: scene.canvas.out_end }] : null,
+                    canvas_opacity_in: scene.canvas && scene.canvas.in_start >= 0 ? [0, 1, { start: scene.canvas.in_start, end: scene.canvas.in_end }] : null,
+                    canvas_opacity_out: scene.canvas && scene.canvas.out_start >= 0 ? [1, 0, { start: scene.canvas.out_start, end: scene.canvas.out_end }] : null,
 
                     ...messagesOpacity,
-                    ...pinOpacity
+                    ...pinOpacity,
+
+                    ...stickyImageValues
                 }
             });
         });
@@ -282,7 +298,6 @@ import {data} from './data.js';
             imgElem3.src = sceneInfo[3].objs.imagesPath[i];
             sceneInfo[3].objs.images.push(imgElem3);
         }
-        console.log(sceneInfo)
     }
 
     function checkMenu() {
@@ -350,6 +365,8 @@ import {data} from './data.js';
         const currentYOffset = yOffset - prevScrollHeight;
         const scrollHeight = sceneInfo[currentScene].scrollHeight;
         const scrollRatio = currentYOffset / scrollHeight;
+        console.log(objs)
+        console.log(values);
         switch (currentScene) {
             case 0:
                 // let sequence = Math.round(calcValues(values.imageSequence, currentYOffset));
