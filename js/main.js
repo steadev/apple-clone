@@ -9,128 +9,129 @@ import {data} from './data.js';
     let delayedYOffset = 0;
     let rafId;
     let rafState;
+    createDOM(data);
     const sceneInfo = setSceneInfo(data);
-    const sceneInfo2 = [
-        {
-            // 0
-            heightNum: 5,
-            scrollHeight: 0,
-            type: "sticky",
-            objs: {
-                container: document.querySelector("#scroll-section-0"),
-                message_0: document.querySelector("#scroll-section-0 .main-message.msg-0"),
-                message_1: document.querySelector("#scroll-section-0 .main-message.msg-1"),
-                message_2: document.querySelector("#scroll-section-0 .main-message.msg-2"),
-                message_3: document.querySelector("#scroll-section-0 .main-message.msg-3"),
-                canvas: document.querySelector('#video-canvas-0'),
-                context: document.querySelector('#video-canvas-0').getContext('2d'),
-                videoImages:[]
-            },
-            values: {
-                videoImageCount: 300,
-                imageSequence: [0, 299],
-                canvas_opacity_out: [1, 0, { start: 0.9, end: 1}],
+    // const sceneInfo2 = [
+    //     {
+    //         // 0
+    //         heightNum: 5,
+    //         scrollHeight: 0,
+    //         type: "sticky",
+    //         objs: {
+    //             container: document.querySelector("#scroll-section-0"),
+    //             message_0: document.querySelector("#scroll-section-0 .main-message.msg-0"),
+    //             message_1: document.querySelector("#scroll-section-0 .main-message.msg-1"),
+    //             message_2: document.querySelector("#scroll-section-0 .main-message.msg-2"),
+    //             message_3: document.querySelector("#scroll-section-0 .main-message.msg-3"),
+    //             canvas: document.querySelector('#video-canvas-0'),
+    //             context: document.querySelector('#video-canvas-0').getContext('2d'),
+    //             videoImages:[]
+    //         },
+    //         values: {
+    //             videoImageCount: 300,
+    //             imageSequence: [0, 299],
+    //             canvas_opacity_out: [1, 0, { start: 0.9, end: 1}],
 
-                message_0_opacity_in: [0, 1, { start: 0.1, end: 0.2 }],
-                message_0_translateY_in: [20, 0, { start: 0.1, end: 0.2 }],
-                message_0_opacity_out: [1, 0, { start: 0.25, end: 0.3 }],
-                message_0_translateY_out: [0, -20, { start: 0.25, end: 0.3 }],
+    //             message_0_opacity_in: [0, 1, { start: 0.1, end: 0.2 }],
+    //             message_0_translateY_in: [20, 0, { start: 0.1, end: 0.2 }],
+    //             message_0_opacity_out: [1, 0, { start: 0.25, end: 0.3 }],
+    //             message_0_translateY_out: [0, -20, { start: 0.25, end: 0.3 }],
                 
-                message_1_opacity_in: [0, 1, { start: 0.3, end: 0.4 }],
-                message_1_translateY_in: [20, 0, { start: 0.3, end: 0.4 }],
-                message_1_opacity_out: [1, 0, { start: 0.45, end: 0.5 }],
-                message_1_translateY_out: [0, -20, { start: 0.45, end: 0.5 }],
+    //             message_1_opacity_in: [0, 1, { start: 0.3, end: 0.4 }],
+    //             message_1_translateY_in: [20, 0, { start: 0.3, end: 0.4 }],
+    //             message_1_opacity_out: [1, 0, { start: 0.45, end: 0.5 }],
+    //             message_1_translateY_out: [0, -20, { start: 0.45, end: 0.5 }],
                 
-                message_2_opacity_in: [0, 1, { start:0.5, end:0.6}],
-                message_2_translateY_in: [20, 0, { start: 0.5, end: 0.6 }],
-                message_2_opacity_out: [1, 0, { start:0.65, end:0.7}],
-                message_2_translateY_out: [0, -20, { start: 0.65, end: 0.7 }],
+    //             message_2_opacity_in: [0, 1, { start:0.5, end:0.6}],
+    //             message_2_translateY_in: [20, 0, { start: 0.5, end: 0.6 }],
+    //             message_2_opacity_out: [1, 0, { start:0.65, end:0.7}],
+    //             message_2_translateY_out: [0, -20, { start: 0.65, end: 0.7 }],
                 
-                message_3_opacity_in: [0, 1, { start: 0.7, end: 0.8 }],
-                message_3_translateY_in: [20, 0, { start: 0.7, end: 0.8 }],
-                message_3_opacity_out: [1, 0, { start: 0.85, end: 0.9 }],
-                message_3_translateY_out: [0, -20, { start: 0.85, end: 0.9 }],
-            }
-        },
-        {
-            // 1
-            // heightNum: 5, // type normal에서는 필요 없음
-            scrollHeight: 0,
-            type: "normal",
-            objs: {
-                container: document.querySelector("#scroll-section-1"),
-            },
-        },
-        {
-            // 2
-            heightNum: 5,
-            scrollHeight: 0,
-            type: "sticky",
-            objs: {
-                container: document.querySelector('#scroll-section-2'),
-                message_0: document.querySelector('#scroll-section-2 .msg-0'),
-                message_1: document.querySelector('#scroll-section-2 .msg-1'),
-                message_2: document.querySelector('#scroll-section-2 .msg-2'),
-                pin_1: document.querySelector('#scroll-section-2 .msg-1 .pin'),
-                pin_2: document.querySelector('#scroll-section-2 .msg-2 .pin'),
-                canvas: document.querySelector('#video-canvas-2'),
-                context: document.querySelector('#video-canvas-2').getContext('2d'),
-                videoImages: []
-            },
-            values: {
-                videoImageCount: 960,
-                imageSequence: [0, 959],
-                canvas_opacity_in: [0, 1, { start: 0, end: 0.1 }],
-                canvas_opacity_out: [1, 0, { start: 0.95, end: 1 }],
+    //             message_3_opacity_in: [0, 1, { start: 0.7, end: 0.8 }],
+    //             message_3_translateY_in: [20, 0, { start: 0.7, end: 0.8 }],
+    //             message_3_opacity_out: [1, 0, { start: 0.85, end: 0.9 }],
+    //             message_3_translateY_out: [0, -20, { start: 0.85, end: 0.9 }],
+    //         }
+    //     },
+    //     {
+    //         // 1
+    //         // heightNum: 5, // type normal에서는 필요 없음
+    //         scrollHeight: 0,
+    //         type: "normal",
+    //         objs: {
+    //             container: document.querySelector("#scroll-section-1"),
+    //         },
+    //     },
+    //     {
+    //         // 2
+    //         heightNum: 5,
+    //         scrollHeight: 0,
+    //         type: "sticky",
+    //         objs: {
+    //             container: document.querySelector('#scroll-section-2'),
+    //             message_0: document.querySelector('#scroll-section-2 .msg-0'),
+    //             message_1: document.querySelector('#scroll-section-2 .msg-1'),
+    //             message_2: document.querySelector('#scroll-section-2 .msg-2'),
+    //             pin_1: document.querySelector('#scroll-section-2 .msg-1 .pin'),
+    //             pin_2: document.querySelector('#scroll-section-2 .msg-2 .pin'),
+    //             canvas: document.querySelector('#video-canvas-2'),
+    //             context: document.querySelector('#video-canvas-2').getContext('2d'),
+    //             videoImages: []
+    //         },
+    //         values: {
+    //             videoImageCount: 960,
+    //             imageSequence: [0, 959],
+    //             canvas_opacity_in: [0, 1, { start: 0, end: 0.1 }],
+    //             canvas_opacity_out: [1, 0, { start: 0.95, end: 1 }],
 
-                message_0_opacity_in: [0, 1, { start: 0.25, end: 0.3 }],
-                message_0_opacity_out: [1, 0, { start: 0.4, end: 0.45 }],
-                message_0_translateY_in: [20, 0, { start: 0.25, end: 0.3 }],
-                message_0_translateY_out: [0, -20, { start: 0.4, end: 0.45 }],
+    //             message_0_opacity_in: [0, 1, { start: 0.25, end: 0.3 }],
+    //             message_0_opacity_out: [1, 0, { start: 0.4, end: 0.45 }],
+    //             message_0_translateY_in: [20, 0, { start: 0.25, end: 0.3 }],
+    //             message_0_translateY_out: [0, -20, { start: 0.4, end: 0.45 }],
 
-                message_1_opacity_in: [0, 1, { start: 0.6, end: 0.65 }],
-                message_1_opacity_out: [1, 0, { start: 0.68, end: 0.73 }],
-                message_1_translateY_in: [30, 0, { start: 0.6, end: 0.65 }],
-                message_1_translateY_out: [0, -20, { start: 0.68, end: 0.73 }],
+    //             message_1_opacity_in: [0, 1, { start: 0.6, end: 0.65 }],
+    //             message_1_opacity_out: [1, 0, { start: 0.68, end: 0.73 }],
+    //             message_1_translateY_in: [30, 0, { start: 0.6, end: 0.65 }],
+    //             message_1_translateY_out: [0, -20, { start: 0.68, end: 0.73 }],
 
-                message_2_opacity_in: [0, 1, { start: 0.87, end: 0.92 }],
-                message_2_opacity_out: [1, 0, { start: 0.95, end: 1 }],
-                message_2_translateY_in: [30, 0, { start: 0.87, end: 0.92 }],
-                message_2_translateY_out: [0, -20, { start: 0.95, end: 1 }],
+    //             message_2_opacity_in: [0, 1, { start: 0.87, end: 0.92 }],
+    //             message_2_opacity_out: [1, 0, { start: 0.95, end: 1 }],
+    //             message_2_translateY_in: [30, 0, { start: 0.87, end: 0.92 }],
+    //             message_2_translateY_out: [0, -20, { start: 0.95, end: 1 }],
 
-                pin_1_scaleY: [0.5, 1, { start: 0.6, end: 0.65 }],
-                pin_2_scaleY: [0.5, 1, { start: 0.87, end: 0.92 }]
-            }
-        },
-        {
-            // 3
-            heightNum: 5,
-            scrollHeight: 0,
-            type: "sticky",
-            objs: {
-                container: document.querySelector("#scroll-section-3"),
-                canvasCaption: document.querySelector('.canvas-caption'),
-                canvas: document.querySelector('.image-blend-canvas-3'),
-                context: document.querySelector('.image-blend-canvas-3').getContext('2d'),
-                imagesPath: [
-                    './images/blend-image-1.jpg',
-                    './images/blend-image-2.jpg',
-                ],
-                images:[]
-            },
-            values: {
-                rect1X: [0, 0, { start: 0, end: 0 }],
-                rect2X: [0, 0, { start: 0, end: 0 }],
-                rectStartY: 0,
-                blendHeight: [0, 0, { start: 0, end: 0 }],
-                canvas_scale: [0, 0, { start: 0, end: 0 }],
-                canvasCaption_opacity: [0, 1, { start: 0, end: 0 }],
-                canvasCaption_translateY: [20, 0, { start: 0, end: 0 }],
-            }
-        },
-    ];
+    //             pin_1_scaleY: [0.5, 1, { start: 0.6, end: 0.65 }],
+    //             pin_2_scaleY: [0.5, 1, { start: 0.87, end: 0.92 }]
+    //         }
+    //     },
+    //     {
+    //         // 3
+    //         heightNum: 5,
+    //         scrollHeight: 0,
+    //         type: "sticky",
+    //         objs: {
+    //             container: document.querySelector("#scroll-section-3"),
+    //             canvasCaption: document.querySelector('.canvas-caption'),
+    //             canvas: document.querySelector('.image-blend-canvas-3'),
+    //             context: document.querySelector('.image-blend-canvas-3').getContext('2d'),
+    //             imagesPath: [
+    //                 './images/blend-image-1.jpg',
+    //                 './images/blend-image-2.jpg',
+    //             ],
+    //             images:[]
+    //         },
+    //         values: {
+    //             rect1X: [0, 0, { start: 0, end: 0 }],
+    //             rect2X: [0, 0, { start: 0, end: 0 }],
+    //             rectStartY: 0,
+    //             blendHeight: [0, 0, { start: 0, end: 0 }],
+    //             canvas_scale: [0, 0, { start: 0, end: 0 }],
+    //             canvasCaption_opacity: [0, 1, { start: 0, end: 0 }],
+    //             canvasCaption_translateY: [20, 0, { start: 0, end: 0 }],
+    //         }
+    //     },
+    // ];
     function createDOM(data){
-        let container = document.querySelector('container');
+        let container = document.querySelector('.container');
         data.forEach((scene, sceneIdx)=>{
             container.innerHTML += `<section class="scroll-section" id="scroll-section-${sceneIdx}"></section>`;
             let curSection = document.querySelector(`#scroll-section-${sceneIdx}`);
@@ -153,13 +154,12 @@ import {data} from './data.js';
                 // add messages
                 if(scene.messages && scene.messages.length > 0){
                     scene.messages.forEach((message, idx) => {
-                        curSection.innerHTML += `
+                        let messageDOM = `
                         <div class="sticky-elem ${message.type}-message msg-${idx}">
-                            <p>${message.text}</p>`;
-                        if(message.pin) curSection.innerHTML += `
-                            <div class="pin"></div>`;
-                        curSection.innerHTML += `
+                            <p>${message.text}</p>
+                            ${message.pin ? '<div class="pin"></div>' : ''}
                         </div>`;
+                        curSection.innerHTML += messageDOM;
                     });
                 }
             }else if(scene.type === 'sticky_image'){
@@ -178,8 +178,8 @@ import {data} from './data.js';
                 }
                 // add canvas caption
                 if(scene.canvasCaption){
-                    curSection.innerHTML`
-                    <p class="canvas-caption">${scene.canvasCaption.text}</p>`;
+                    curSection.innerHTML += `
+                    <p class="canvas-caption canvas-caption-${sceneIdx}">${scene.canvasCaption.text}</p>`;
                 }
             }else if(scene.type === 'normal'){
                 const normalDOM = document.createElement('p');
@@ -365,8 +365,6 @@ import {data} from './data.js';
         const currentYOffset = yOffset - prevScrollHeight;
         const scrollHeight = sceneInfo[currentScene].scrollHeight;
         const scrollRatio = currentYOffset / scrollHeight;
-        console.log(objs)
-        console.log(values);
         switch (currentScene) {
             case 0:
                 // let sequence = Math.round(calcValues(values.imageSequence, currentYOffset));
@@ -747,7 +745,7 @@ import {data} from './data.js';
             document.body.removeChild(event.currentTarget);
         })
     });
-
+    
     setCanvasImages();
 
 })();
